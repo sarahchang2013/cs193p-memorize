@@ -9,23 +9,27 @@ import SwiftUI
 
 struct ContentView: View {
     @State var cardCount :Int = 2
-    let emojis:Array<String> = ["👀","🫁","🫀","🧠","👂🏻"]
+    let emojis:Array<String> = ["👀","🫁","🫀","🧠","👂🏻","🦶","🦿","👀","🫁","🫀","🧠","👂🏻","🦶","🦿"]
 
     var body: some View {
         VStack {
-            cards
-            cardAdder
-            Spacer()
-            cardRemover
+            ScrollView {
+                cards
+            }
+            HStack {
+                cardRemover
+                Spacer()
+                cardAdder
+            }
         }
         .padding()
     }
     
     var cards: some View {
-        
-        return HStack {
+        LazyVGrid(columns:[GridItem(),GridItem(),GridItem()]) {
             ForEach(0..<cardCount, id: \.self) {index in
                 CardView(isFaceUp: true, content: emojis[index])
+                    .aspectRatio(2/3, contentMode: .fit)
             }
         }
         .foregroundColor(.orange)
@@ -53,25 +57,24 @@ struct ContentView: View {
 }
     
 struct CardView: View {
-        @State var isFaceUp = false
-        let content: String
-        
-        var body: some View {
-            ZStack {
-                if isFaceUp {
-                    RoundedRectangle(cornerRadius: 12)
-                        .foregroundColor(.yellow)
-                    RoundedRectangle(cornerRadius: 12)
-                        .strokeBorder(lineWidth: 2)
-                    Text(content).font(.largeTitle)
-                } else {
-                    RoundedRectangle(cornerRadius: 12)
-                }
+    @State var isFaceUp = false
+    let content: String
+    
+    var body: some View {
+        ZStack {
+            let base = RoundedRectangle(cornerRadius: 12)
+            Group{
+                base.foregroundColor(.yellow)
+                base.strokeBorder(lineWidth: 2)
+                Text(content).font(.largeTitle)
             }
-            .onTapGesture {
-                isFaceUp.toggle()
-            }
+            .opacity(isFaceUp ? 1 : 0)
+            base.fill(.green).opacity(isFaceUp ? 0 : 1)
         }
+        .onTapGesture {
+            isFaceUp.toggle()
+        }
+    }
 }
     
 
