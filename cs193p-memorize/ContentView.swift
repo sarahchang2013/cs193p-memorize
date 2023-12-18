@@ -11,10 +11,9 @@ struct ContentView: View {
     let emojis:Array<String> = ["👀","🫁","🫀","🧠"]
     var body: some View {
         HStack {
-            CardView(isFaceUp: true, content: emojis[0])
-            CardView(isFaceUp: true, content: emojis[1])
-            CardView(isFaceUp: true, content: emojis[2])
-            CardView(isFaceUp: true, content: emojis[3])
+            ForEach(0..<4, id: \.self) {index in
+                CardView(isFaceUp: true, content: emojis[index])
+            }
         }
         .foregroundColor(.orange)
         .padding()
