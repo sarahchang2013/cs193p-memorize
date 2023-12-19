@@ -16,43 +16,19 @@ struct ContentView: View {
             ScrollView {
                 cards
             }
-            HStack {
-                cardRemover
-                Spacer()
-                cardAdder
-            }
         }
         .padding()
     }
     
     var cards: some View {
         LazyVGrid(columns:[GridItem(),GridItem(),GridItem()]) {
-            ForEach(0..<cardCount, id: \.self) {index in
-                CardView(isFaceUp: true, content: emojis[index])
+            ForEach(0..<emojis.count, id: \.self) {index in
+                CardView(content: emojis[index])
                     .aspectRatio(2/3, contentMode: .fit)
             }
         }
         .foregroundColor(.orange)
         .padding()
-    }
-    
-    func cardCountAdjuster(by offset: Int, symbol: String) -> some View {
-        Button(action: {
-            cardCount += offset
-        }, label: {
-            Image(systemName: symbol)
-        })
-        .disabled(cardCount + offset < 1 || cardCount + offset > emojis.count)
-    }
-    
-    var cardRemover: some View {
-        cardCountAdjuster(by: -1, symbol: "pencil.tip.crop.circle.badge.minus")
-            .imageScale(.large)
-    }
-
-    var cardAdder: some View {
-        cardCountAdjuster(by: 1, symbol: "pencil.tip.crop.circle.badge.plus")
-            .imageScale(.large)
     }
 }
     
