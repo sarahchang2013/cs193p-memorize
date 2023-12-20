@@ -12,7 +12,7 @@ struct MemorizeModel<CardContent> {
     
     init(nPairsOfCards: Int, cardContentFactory: (Int) -> CardContent){
         cards = []
-        for pairIndex in 0..<nPairsOfCards {
+        for pairIndex in 0..<max(2,nPairsOfCards) {
             let content = cardContentFactory(pairIndex)
             cards.append(Card(content: content))
             cards.append(Card(content: content))
