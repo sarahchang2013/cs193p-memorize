@@ -11,7 +11,7 @@ import SwiftUI
 struct cs193p_memorizeApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MemorizeView()
         }
     }
 }

@@ -7,9 +7,8 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    @State var cardCount :Int = 2
-    let emojis:Array<String> = ["👀","🫁","🫀","🧠","👂🏻","🦶","🦿","👀","🫁","🫀","🧠","👂🏻","🦶","🦿"]
+struct MemorizeView: View {
+    var butler: MemorizeButler = MemorizeButler()
 
     var body: some View {
         VStack {
@@ -22,8 +21,8 @@ struct ContentView: View {
     
     var cards: some View {
         LazyVGrid(columns:[GridItem(),GridItem(),GridItem()]) {
-            ForEach(0..<emojis.count, id: \.self) {index in
-                CardView(content: emojis[index])
+            ForEach(0..<butler.cards.count, id: \.self) {index in
+                CardView(card: butler.cards[index])
                     .aspectRatio(2/3, contentMode: .fit)
             }
         }
@@ -33,27 +32,22 @@ struct ContentView: View {
 }
     
 struct CardView: View {
-    @State var isFaceUp = false
-    let content: String
-    
+    var card: MemorizeModel<String>.Card
     var body: some View {
         ZStack {
             let base = RoundedRectangle(cornerRadius: 12)
             Group{
                 base.foregroundColor(.yellow)
                 base.strokeBorder(lineWidth: 2)
-                Text(content).font(.largeTitle)
+                Text(card.content).font(.largeTitle)
             }
-            .opacity(isFaceUp ? 1 : 0)
-            base.fill(.green).opacity(isFaceUp ? 0 : 1)
-        }
-        .onTapGesture {
-            isFaceUp.toggle()
+            .opacity(card.isFaceUp ? 1 : 0)
+            base.fill(.green).opacity(card.isFaceUp ? 0 : 1)
         }
     }
 }
     
 
 #Preview {
-    ContentView()
+    MemorizeView()
 }

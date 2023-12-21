@@ -25,7 +25,7 @@ struct MemorizeModel<CardContent> {
     }
     
     struct Card {
-        var isFaceUp = false
+        var isFaceUp = true
         var isMatched = false
         var content: CardContent
     }
