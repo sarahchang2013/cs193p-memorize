@@ -25,6 +25,6 @@ class MemorizeButler {
     }
     
     func choose(_ card: MemorizeModel<String>.Card){
-        gameModel.choose(card: <#T##MemorizeModel<String>.Card#>)
+        gameModel.choose(card: card)
     }
 }
