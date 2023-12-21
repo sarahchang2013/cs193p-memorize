@@ -22,7 +22,7 @@ struct MemorizeView: View {
     var cards: some View {
         LazyVGrid(columns:[GridItem(),GridItem(),GridItem()]) {
             ForEach(0..<butler.cards.count, id: \.self) {index in
-                CardView(card: butler.cards[index])
+                CardView(butler.cards[index])
                     .aspectRatio(2/3, contentMode: .fit)
             }
         }
@@ -32,7 +32,13 @@ struct MemorizeView: View {
 }
     
 struct CardView: View {
-    var card: MemorizeModel<String>.Card
+    let card: MemorizeModel<String>.Card
+    
+    //"_" means no need to add param label externally
+    init(_ card: MemorizeModel<String>.Card) {
+        self.card = card
+    }
+    
     var body: some View {
         ZStack {
             let base = RoundedRectangle(cornerRadius: 12)
