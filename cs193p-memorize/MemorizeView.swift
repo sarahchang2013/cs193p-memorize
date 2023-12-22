@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MemorizeView: View {
-    var butler: MemorizeButler = MemorizeButler()
+    @ObservedObject var butler: MemorizeButler
 
     var body: some View {
         VStack {
@@ -62,5 +62,5 @@ struct CardView: View {
     
 
 #Preview {
-    MemorizeView()
+    MemorizeView(butler: MemorizeButler())
 }

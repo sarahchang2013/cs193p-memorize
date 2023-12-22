@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct cs193p_memorizeApp: App {
+    @StateObject var memorize = MemorizeButler()
+
     var body: some Scene {
         WindowGroup {
-            MemorizeView()
+            MemorizeView(butler: memorize)
         }
     }
 }
