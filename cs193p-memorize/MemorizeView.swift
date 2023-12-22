@@ -14,6 +14,7 @@ struct MemorizeView: View {
         VStack {
             ScrollView {
                 cards
+                    .animation(.easeIn(duration: 0.1), value: butler.cards)
             }
             Button("Shuffle"){
                 butler.shuffle()
