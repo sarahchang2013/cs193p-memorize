@@ -20,10 +20,11 @@ struct MemorizeView: View {
     }
     
     var cards: some View {
-        LazyVGrid(columns:[GridItem(),GridItem(),GridItem()]) {
+        LazyVGrid(columns:[GridItem(.adaptive(minimum: 100))]) {
             ForEach(0..<butler.cards.count, id: \.self) {index in
                 CardView(butler.cards[index])
                     .aspectRatio(2/3, contentMode: .fit)
+                    .padding(5)
             }
         }
         .foregroundColor(.orange)
@@ -45,7 +46,10 @@ struct CardView: View {
             Group{
                 base.foregroundColor(.yellow)
                 base.strokeBorder(lineWidth: 2)
-                Text(card.content).font(.largeTitle)
+                Text(card.content)
+                    .font(.system(size: 200))
+                    .minimumScaleFactor(0.01)
+                    .aspectRatio(1, contentMode: .fit)
             }
             .opacity(card.isFaceUp ? 1 : 0)
             base.fill(.green).opacity(card.isFaceUp ? 0 : 1)
