@@ -24,6 +24,12 @@ class MemorizeButler {
         return gameModel.cards
     }
     
+    //MARK: - Intent
+    
+    func shuffle(){
+        gameModel.shuffle()
+    }
+    
     func choose(_ card: MemorizeModel<String>.Card){
         gameModel.choose(card: card)
     }

@@ -15,6 +15,9 @@ struct MemorizeView: View {
             ScrollView {
                 cards
             }
+            Button("Shuffle"){
+                butler.shuffle()
+            }
         }
         .padding()
     }

@@ -20,6 +20,11 @@ struct MemorizeModel<CardContent> {
         
     }
     
+    mutating func shuffle(){
+        cards.shuffle()
+        print(cards)
+    }
+    
     func choose(card: Card){
         
     }
