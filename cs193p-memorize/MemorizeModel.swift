@@ -14,8 +14,8 @@ struct MemorizeModel<CardContent> where CardContent: Equatable{
         cards = []
         for pairIndex in 0..<max(2,nPairsOfCards) {
             let content = cardContentFactory(pairIndex)
-            cards.append(Card(content: content))
-            cards.append(Card(content: content))
+            cards.append(Card(id:"\(pairIndex+1)1a", content: content))
+            cards.append(Card(id:"\(pairIndex+1)1b", content: content))
         }
         
     }
@@ -28,7 +28,9 @@ struct MemorizeModel<CardContent> where CardContent: Equatable{
         
     }
     
-    struct Card: Equatable {
+    struct Card: Equatable, Identifiable {
+        var id: String
+        
         var isFaceUp = true
         var isMatched = false
         var content: CardContent

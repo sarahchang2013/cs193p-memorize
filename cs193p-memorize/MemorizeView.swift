@@ -25,10 +25,14 @@ struct MemorizeView: View {
     
     var cards: some View {
         LazyVGrid(columns:[GridItem(.adaptive(minimum: 100))]) {
-            ForEach(0..<butler.cards.count, id: \.self) {index in
-                CardView(butler.cards[index])
-                    .aspectRatio(2/3, contentMode: .fit)
+            ForEach(butler.cards) {card in
+                VStack {
+                    CardView(card)
+                        .aspectRatio(2/3, contentMode: .fit)
                     .padding(5)
+                    Text(card.id)
+                }
+                
             }
         }
         .foregroundColor(.orange)
