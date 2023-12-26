@@ -14,7 +14,7 @@ struct MemorizeView: View {
         VStack {
             ScrollView {
                 cards
-                    .animation(.easeIn(duration: 0.1), value: butler.cards)
+                    .animation(.easeIn(duration: 2), value: butler.cards)
             }
             Button("Shuffle"){
                 butler.shuffle()
@@ -24,17 +24,17 @@ struct MemorizeView: View {
     }
     
     var cards: some View {
-        LazyVGrid(columns:[GridItem(.adaptive(minimum: 100))]) {
+        //LazyVGrid(columns:[GridItem(.adaptive(minimum: 100))]) {
             ForEach(butler.cards) {card in
                 VStack {
                     CardView(card)
-                        .aspectRatio(2/3, contentMode: .fit)
+                        .aspectRatio(3, contentMode: .fit)
                     .padding(5)
                     Text(card.id)
                 }
                 
             }
-        }
+        //}
         .foregroundColor(.orange)
         .padding()
     }
