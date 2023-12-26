@@ -30,7 +30,9 @@ struct MemorizeView: View {
                     CardView(card)
                         .aspectRatio(2/3, contentMode: .fit)
                     .padding(5)
-                    Text(card.id)
+                    .onTapGesture {
+                        butler.choose(card)
+                    }
                 }
                 
             }

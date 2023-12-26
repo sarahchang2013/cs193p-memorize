@@ -24,15 +24,36 @@ struct MemorizeModel<CardContent> where CardContent: Equatable{
         cards.shuffle()
     }
     
-    func choose(card: Card){
-        
+    mutating func choose(card: Card){
+        let chosenIndex = index(of: card)
+        cards[chosenIndex].isFaceUp.toggle()
     }
     
-    struct Card: Equatable, Identifiable {
+    func index(of card: Card) -> Int {
+        for ind in cards.indices {
+            if cards[ind].id == card.id{
+                return ind
+            }
+        }
+        return 0 // FIXME: temporary
+    }
+    
+    struct Card: Equatable, Identifiable, CustomDebugStringConvertible {
         var id: String
-        
-        var isFaceUp = true
+        var isFaceUp = false
         var isMatched = false
         var content: CardContent
+        
+        
+        var debugDescription: String{
+            "\(id): \(content) \(isFaceUp ? "up" : "down") \(isMatched ? "matched" : "")"
+        }
+        
+        
+       
+        
+        
+        
+
     }
 }
