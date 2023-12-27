@@ -24,9 +24,26 @@ struct MemorizeModel<CardContent> where CardContent: Equatable{
         cards.shuffle()
     }
     
+    var theOnlyFaceUpCardIndex: Int?
+    
     mutating func choose(card: Card){
-        if let chosenIndex = cards.firstIndex(where: {$0.id == card.id}){
-            cards[chosenIndex].isFaceUp.toggle()
+        if let chosenIndex = cards.firstIndex(where: {$0.id == card.id}) {
+            if !cards[chosenIndex].isFaceUp && !cards[chosenIndex].isMatched {
+                if let potentialMatchIndex = theOnlyFaceUpCardIndex {
+                    if cards[chosenIndex].content == cards[potentialMatchIndex].content {
+                        cards[chosenIndex].isMatched = true
+                        cards[potentialMatchIndex].isMatched = true
+                    }
+                    theOnlyFaceUpCardIndex = nil
+                }
+                else {
+                    for index in cards.indices {
+                        cards[index].isFaceUp = false
+                    }
+                    theOnlyFaceUpCardIndex = chosenIndex
+                }
+                cards[chosenIndex].isFaceUp = true       
+            }
         }
     }
     
