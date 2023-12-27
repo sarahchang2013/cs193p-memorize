@@ -24,7 +24,11 @@ struct MemorizeModel<CardContent> where CardContent: Equatable{
         cards.shuffle()
     }
     
-    var theOnlyFaceUpCardIndex: Int?
+    var theOnlyFaceUpCardIndex: Int? {
+        // read-write functions of a computed property
+        get { cards.indices.filter{ index in cards[index].isFaceUp }.only }
+        set { cards.indices.forEach {cards[$0].isFaceUp = (newValue == $0) } }
+    }
     
     mutating func choose(card: Card){
         if let chosenIndex = cards.firstIndex(where: {$0.id == card.id}) {
@@ -34,12 +38,8 @@ struct MemorizeModel<CardContent> where CardContent: Equatable{
                         cards[chosenIndex].isMatched = true
                         cards[potentialMatchIndex].isMatched = true
                     }
-                    theOnlyFaceUpCardIndex = nil
                 }
                 else {
-                    for index in cards.indices {
-                        cards[index].isFaceUp = false
-                    }
                     theOnlyFaceUpCardIndex = chosenIndex
                 }
                 cards[chosenIndex].isFaceUp = true       
@@ -54,16 +54,14 @@ struct MemorizeModel<CardContent> where CardContent: Equatable{
         var isMatched = false
         var content: CardContent
         
-        
         var debugDescription: String{
             "\(id): \(content) \(isFaceUp ? "up" : "down") \(isMatched ? "matched" : "")"
         }
-        
-        
-       
-        
-        
-        
+    }
+}
 
+extension Array {
+    var only : Element? {
+        count == 1 ? first : nil
     }
 }
