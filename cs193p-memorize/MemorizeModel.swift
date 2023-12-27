@@ -25,18 +25,11 @@ struct MemorizeModel<CardContent> where CardContent: Equatable{
     }
     
     mutating func choose(card: Card){
-        let chosenIndex = index(of: card)
-        cards[chosenIndex].isFaceUp.toggle()
+        if let chosenIndex = cards.firstIndex(where: {$0.id == card.id}){
+            cards[chosenIndex].isFaceUp.toggle()
+        }
     }
     
-    func index(of card: Card) -> Int {
-        for ind in cards.indices {
-            if cards[ind].id == card.id{
-                return ind
-            }
-        }
-        return 0 // FIXME: temporary
-    }
     
     struct Card: Equatable, Identifiable, CustomDebugStringConvertible {
         var id: String
