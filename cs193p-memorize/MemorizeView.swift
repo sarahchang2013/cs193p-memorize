@@ -24,7 +24,7 @@ struct MemorizeView: View {
     }
     
     var cards: some View {
-        LazyVGrid(columns:[GridItem(.adaptive(minimum: 100))]) {
+        LazyVGrid(columns:[GridItem(.adaptive(minimum: 100), spacing: 10)], spacing: 10) {
             ForEach(butler.cards) {card in
                 VStack {
                     CardView(card)
@@ -33,6 +33,7 @@ struct MemorizeView: View {
                     .onTapGesture {
                         butler.choose(card)
                     }
+                    .background(Color.blue)
                 }
                 
             }
