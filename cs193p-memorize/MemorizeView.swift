@@ -12,34 +12,55 @@ struct MemorizeView: View {
 
     var body: some View {
         VStack {
-            ScrollView {
-                cards
-                    .animation(.easeIn(duration: 0.2), value: butler.cards)
-            }
+            cards
+                .animation(.easeIn(duration: 0.2), value: butler.cards)
+                    
             Button("Shuffle"){
                 butler.shuffle()
-            }
+                }
         }
         .padding()
     }
     
     var cards: some View {
-        LazyVGrid(columns:[GridItem(.adaptive(minimum: 100), spacing: 10)], spacing: 10) {
-            ForEach(butler.cards) {card in
-                VStack {
+        GeometryReader { geometry in
+            let gridSize = bestGridWidth(
+                count: butler.cards.count,
+                size: geometry.size,
+                asp_ratio: 2/3)
+            LazyVGrid(columns:[GridItem(.adaptive(minimum: gridSize), spacing: 0)], spacing: 0) {
+                ForEach(butler.cards) {card in
                     CardView(card)
                         .aspectRatio(2/3, contentMode: .fit)
-                    .padding(5)
-                    .onTapGesture {
-                        butler.choose(card)
-                    }
-                    .background(Color.blue)
+                        .padding(5)
+                        .onTapGesture {
+                            butler.choose(card)
+                        }
                 }
-                
             }
         }
-        .foregroundColor(.orange)
         .padding()
+    }
+    
+    func bestGridWidth (
+        count: Int,
+        size: CGSize,
+        asp_ratio: CGFloat
+    ) -> CGFloat {
+        let fcount = CGFloat(count)
+        var columnCount = 1.0
+        //print("screen width:\(size.width) screen height:\(size.height)")
+        repeat {
+            let width = size.width / columnCount
+            let height = width / asp_ratio
+            let rowCount = (fcount / columnCount).rounded(.up)
+            //print("height:\(height) row count:\(rowCount)")
+            if height * rowCount < size.height {
+                return (size.width / columnCount).rounded(.down)
+            }
+            columnCount += 1
+        } while (columnCount < fcount)
+        return size.width/fcount
     }
 }
     
