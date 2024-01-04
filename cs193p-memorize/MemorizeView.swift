@@ -9,13 +9,11 @@ import SwiftUI
 
 struct MemorizeView: View {
     @ObservedObject var butler: MemorizeButler
-    
-    private let aspectRatio :CGFloat = 2/3
 
     var body: some View {
         VStack {
             cards
-                .animation(.easeIn(duration: 0.2), value: butler.cards)
+                .animation(.easeIn(duration: Constants.duration), value: butler.cards)
                     
             Button("Shuffle"){
                 butler.shuffle()
@@ -25,14 +23,19 @@ struct MemorizeView: View {
     }
     
     var cards: some View {
-        AspectVGrid(items: butler.cards, aspectRatio: aspectRatio) {
+        AspectVGrid(items: butler.cards, aspectRatio: Constants.cardAspRatio) {
             card in CardView(card)
-                    .aspectRatio(aspectRatio,contentMode:.fit)
-                    .padding(5)
+                    .padding(Constants.inset)
                     .onTapGesture {
                         butler.choose(card)
                     }
         }
+    }
+    
+    private struct Constants {
+        static let cardAspRatio: CGFloat = 2/3
+        static let inset: CGFloat = 5
+        static let duration: CGFloat = 0.2
     }
 }
     
