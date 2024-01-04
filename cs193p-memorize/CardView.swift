@@ -22,6 +22,9 @@ struct CardView: View {
             Group{
                 base.foregroundColor(.yellow)
                 base.strokeBorder(lineWidth: Constants.lineWidth)
+                Pie(endAngel:.degrees(240))
+                    .fill(.white)
+                    .opacity(Constants.counterOpacity).padding(Constants.inset)
                 Text(card.content)
                     .font(.system(size: Constants.FontSize.largest))
                     .minimumScaleFactor(Constants.FontSize.scaleFactor)
@@ -39,6 +42,7 @@ struct CardView: View {
         static let lineWidth: CGFloat = 2
         static let inset: CGFloat = 5
         static let contentAspRatio: CGFloat = 1
+        static let counterOpacity: CGFloat = 0.7
         struct FontSize {
             static let largest: CGFloat = 200
             static let scaleFactor: CGFloat = 0.01
@@ -48,5 +52,5 @@ struct CardView: View {
 
 #Preview {
     typealias Card = MemorizeModel<String>.Card
-    return CardView(Card(id:"test", isFaceUp: true, content:"hi")).aspectRatio(3/2, contentMode: .fit).padding()
+    return CardView(Card(id:"test", isFaceUp: true, content:"hi")).aspectRatio(1, contentMode: .fit).padding()
 }
