@@ -8,6 +8,7 @@
 import SwiftUI
 
 class MemorizeButler : ObservableObject {
+    typealias Card = MemorizeModel<String>.Card
     // 1.private global variable in MemorizeButler scope,outside is BAD
     // 2. cannot be a class property, initializer is random, gameModel may be initialized first
     private static let cardStorage = ["👀","🫁","🫀","🧠","👂🏻","🦶","🦿","🦷","👅","👃🏽","🥑","🥬"]
@@ -20,7 +21,7 @@ class MemorizeButler : ObservableObject {
         return cardStorage.indices.contains(pairIndex) ? cardStorage[pairIndex] : "⁉️"
     }
     
-    var cards: Array<MemorizeModel<String>.Card> {
+    var cards: Array<Card> {
         return gameModel.cards
     }
     
@@ -30,7 +31,7 @@ class MemorizeButler : ObservableObject {
         gameModel.shuffle()
     }
     
-    func choose(_ card: MemorizeModel<String>.Card){
+    func choose(_ card: Card){
         gameModel.choose(card: card)
     }
 }
