@@ -27,7 +27,7 @@ struct CardView: View {
                 .aspectRatio(Constants.contentAspRatio, contentMode: .fit)
                 .padding(Constants.inset)
                 .rotationEffect(.degrees(card.isMatched ? 360 : 0))
-                .animation(.spin(duration: 1), value: card.isMatched)
+                .animation(.spin(duration: Constants.duration), value: card.isMatched)
             )
             .padding(Constants.inset)
             .cardify(isFaceUp: card.isFaceUp)
@@ -40,6 +40,7 @@ struct CardView: View {
         static let inset: CGFloat = 5
         static let contentAspRatio: CGFloat = 1
         static let counterOpacity: CGFloat = 0.7
+        static let duration: CGFloat = 0.7
         struct FontSize {
             static let largest: CGFloat = 200
             static let scaleFactor: CGFloat = 0.01

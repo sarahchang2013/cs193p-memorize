@@ -28,7 +28,7 @@ struct MemorizeView: View {
             card in CardView(card)
                     .padding(Constants.inset)
                     .onTapGesture {
-                        withAnimation {
+                        withAnimation(.easeInOut(duration: Constants.duration)) {
                             butler.choose(card)
                         }
                     }
@@ -38,7 +38,7 @@ struct MemorizeView: View {
     private struct Constants {
         static let cardAspRatio: CGFloat = 2/3
         static let inset: CGFloat = 5
-        static let duration: CGFloat = 2
+        static let duration: CGFloat = 1
     }
 }
     
