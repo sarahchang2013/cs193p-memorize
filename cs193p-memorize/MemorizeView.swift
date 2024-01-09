@@ -13,11 +13,12 @@ struct MemorizeView: View {
     var body: some View {
         VStack {
             cards
-                .animation(.easeIn(duration: Constants.duration), value: butler.cards)
                     
             Button("Shuffle"){
-                butler.shuffle()
+                withAnimation{
+                    butler.shuffle()
                 }
+            }
         }
         .padding()
     }
@@ -27,7 +28,9 @@ struct MemorizeView: View {
             card in CardView(card)
                     .padding(Constants.inset)
                     .onTapGesture {
-                        butler.choose(card)
+                        withAnimation {
+                            butler.choose(card)
+                        }
                     }
         }
     }
@@ -35,7 +38,7 @@ struct MemorizeView: View {
     private struct Constants {
         static let cardAspRatio: CGFloat = 2/3
         static let inset: CGFloat = 5
-        static let duration: CGFloat = 0.2
+        static let duration: CGFloat = 2
     }
 }
     
