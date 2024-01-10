@@ -13,7 +13,7 @@ class MemorizeButler : ObservableObject {
     // 2. cannot be a class property, initializer is random, gameModel may be initialized first
     private static let cardStorage = ["👀","🫁","🫀","🧠","👂🏻","🦶","🦿","🦷","👅","👃🏽","🥑","🥬"]
     
-    @Published private var gameModel = MemorizeModel<String>(nPairsOfCards: 2){
+    @Published private var gameModel = MemorizeModel<String>(nPairsOfCards: 9){
         // 1.full code for cardContentFactory: (pairIndex: Int) -> String {return ...}
         // 2.type inference omits types, inline function format as foreach
         // 3.trailing closure syntax
@@ -23,6 +23,10 @@ class MemorizeButler : ObservableObject {
     
     var cards: Array<Card> {
         return gameModel.cards
+    }
+    
+    var score: Int {
+        gameModel.score
     }
     
     //MARK: - Intent

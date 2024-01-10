@@ -14,11 +14,17 @@ struct MemorizeView: View {
         VStack {
             cards
                     
-            Button("Shuffle"){
-                withAnimation{
-                    butler.shuffle()
+            HStack {
+                Text("Score: \(butler.score)")
+                    .animation(nil)
+                Spacer()
+                Button("Shuffle"){
+                    withAnimation{
+                        butler.shuffle()
+                    }
                 }
             }
+            .font(.largeTitle)
         }
         .padding()
     }
