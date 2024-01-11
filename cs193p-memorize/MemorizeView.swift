@@ -35,6 +35,7 @@ struct MemorizeView: View {
             card in CardView(card)
                     .padding(Constants.inset)
                     .overlay(FlyingNumber(number: scoreChange(causedBy: card)))
+                    .zIndex(scoreChange(causedBy: card)==0 ? 0 : 100)
                     .onTapGesture {
                         withAnimation(.easeInOut(duration: Constants.duration)) {
                             let scoreBeforeChoose = butler.score
