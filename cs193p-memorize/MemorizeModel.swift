@@ -35,25 +35,28 @@ struct MemorizeModel<CardContent> where CardContent: Equatable{
         if let chosenIndex = cards.firstIndex(where: {$0.id == card.id}) {
             if !cards[chosenIndex].isFaceUp && !cards[chosenIndex].isMatched {
                 if let potentialMatchIndex = theOnlyFaceUpCardIndex {
+                    // find a matched pair, score += 2
                     if cards[chosenIndex].content == cards[potentialMatchIndex].content {
                         cards[chosenIndex].isMatched = true
                         cards[potentialMatchIndex].isMatched = true
                         score += 2
                     }
                     else {
+                        // the pair isn't a match, penalize on revealed cards
                         if cards[chosenIndex].hasBeenSeen {
                             score -= 1
                         }
                         if cards[potentialMatchIndex].hasBeenSeen {
                             score -= 1
                         }
-                        print("Score: \(score)")
                     }
+                    print("hasBeenSeen: \(cards[chosenIndex].hasBeenSeen), \(cards[potentialMatchIndex].hasBeenSeen)")
+                    print("Score: \(score)")
                 }
                 else {
                     theOnlyFaceUpCardIndex = chosenIndex
                 }
-                cards[chosenIndex].isFaceUp = true       
+                cards[chosenIndex].isFaceUp = true
             }
         }
     }
@@ -63,6 +66,7 @@ struct MemorizeModel<CardContent> where CardContent: Equatable{
         var id: String
         var isFaceUp = false {
             didSet {
+                // "seen" when flipped back down
                 if oldValue && !isFaceUp {
                     hasBeenSeen = true
                 }
