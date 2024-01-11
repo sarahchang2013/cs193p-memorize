@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MemorizeView: View {
     @ObservedObject var butler: MemorizeButler
+    typealias Card = MemorizeModel<String>.Card
 
     var body: some View {
         VStack {
@@ -29,16 +30,27 @@ struct MemorizeView: View {
         .padding()
     }
     
-    var cards: some View {
+    private var cards: some View {
         AspectVGrid(items: butler.cards, aspectRatio: Constants.cardAspRatio) {
             card in CardView(card)
                     .padding(Constants.inset)
+                    .overlay(FlyingNumber(number: scoreChange(causedBy: card)))
                     .onTapGesture {
                         withAnimation(.easeInOut(duration: Constants.duration)) {
+                            let scoreBeforeChoose = butler.score
                             butler.choose(card)
+                            let scoreChange = butler.score - scoreBeforeChoose
+                            lastScoreChange = (scoreChange, card.id)
                         }
                     }
         }
+    }
+    
+    @State private var lastScoreChange = (0, causedByCardId: "")
+    
+    private func scoreChange(causedBy card: Card) -> Int {
+        let (amount, id) = lastScoreChange
+        return card.id == id ? amount : 0
     }
     
     private struct Constants {
