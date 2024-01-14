@@ -24,10 +24,10 @@ struct Cardify: ViewModifier, Animatable{
     func body(content: Content) -> some View {
         ZStack {
             let base = RoundedRectangle(cornerRadius: Constants.cornerRadius)
-            base.fill(.yellow)
+            base.fill(Constants.lemonYellow)
                 .overlay(content)
                 .opacity(isFaceUp ? 1 : 0)
-            base.fill(Color.mint)
+            base.fill(Constants.lightMint)
                 .opacity(isFaceUp ? 0 : 1)
         }
         .rotation3DEffect(
@@ -37,6 +37,8 @@ struct Cardify: ViewModifier, Animatable{
     }
     
     private struct Constants {
+        static let lemonYellow = Color(hue: 0.15, saturation: 0.8, brightness: 1)
+        static let lightMint = Color(red: 0.4627, green: 0.8392, blue: 0.8)
         static let cornerRadius: CGFloat = 12
         static let lineWidth: CGFloat = 2
         static let inset: CGFloat = 5

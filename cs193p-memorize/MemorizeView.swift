@@ -18,12 +18,14 @@ struct MemorizeView: View {
             HStack {
                 Text("Score: \(butler.score)")
                     .animation(nil)
+                    .foregroundColor(Constants.scoreColor)
                 Spacer()
                 Button("Shuffle"){
                     withAnimation{
                         butler.shuffle()
                     }
                 }
+                .foregroundColor(Constants.shuffleColor)
             }
             .font(.largeTitle)
         }
@@ -58,6 +60,8 @@ struct MemorizeView: View {
         static let cardAspRatio: CGFloat = 2/3
         static let inset: CGFloat = 5
         static let duration: CGFloat = 1
+        static let shuffleColor = Color(red: 0.5, green: 0.73, blue: 0.5)
+        static let scoreColor = Color(red: 0.627, green: 0.392, blue: 0.5)
     }
 }
     
