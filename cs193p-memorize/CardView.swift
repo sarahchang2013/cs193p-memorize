@@ -17,23 +17,33 @@ struct CardView: View {
     }
     
     var body: some View {
+        // update the view at a sequence of time points (schedule)
         TimelineView(.animation(minimumInterval: 1/5)) {_ in
-            Pie(endAngel:.degrees(card.bonusPercentRemaining * 360))
-                .fill(.white)
-                .opacity(Constants.counterOpacity).padding(Constants.inset)
-                .overlay(
-                    Text(card.content)
-                        .font(.system(size: Constants.FontSize.largest))
-                        .minimumScaleFactor(Constants.FontSize.scaleFactor)
-                        .aspectRatio(Constants.contentAspRatio, contentMode: .fit)
-                        .padding(Constants.inset)
-                        .rotationEffect(.degrees(card.isMatched ? 360 : 0))
-                        .animation(.spin(duration: Constants.duration), value: card.isMatched)
-                )
-                .padding(Constants.inset)
-                .cardify(isFaceUp: card.isFaceUp)
-                .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
+            if card.isFaceUp || !card.isMatched {
+                Pie(endAngel:.degrees(card.bonusPercentRemaining * 360))
+                    .fill(.white)
+                    .opacity(Constants.counterOpacity).padding(Constants.inset)
+                    .overlay(
+                        cardContents.padding(Constants.inset))
+                    .padding(Constants.inset)
+                    .cardify(isFaceUp: card.isFaceUp)
+                    .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
+            } else {
+                // if card.isMatched && !card.isFaceUp
+                // stops rotation when it's matched and disappearing
+                Color.clear
+            }
         }
+    }
+    
+    var cardContents: some View {
+        Text(card.content)
+            .font(.system(size: Constants.FontSize.largest))
+            .minimumScaleFactor(Constants.FontSize.scaleFactor)
+            .multilineTextAlignment(.center)
+            .aspectRatio(Constants.contentAspRatio, contentMode: .fit)
+            .rotationEffect(.degrees(card.isMatched ? 360 : 0))
+            .animation(.spin(duration: Constants.duration), value: card.isMatched)
     }
     
     private struct Constants {
