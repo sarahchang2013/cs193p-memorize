@@ -94,15 +94,15 @@ struct MemorizeModel<CardContent> where CardContent: Equatable{
         // call this when the card transitions to face up state
         private mutating func startUsingBonusTime() {
             // use comma instead of && in if to unwrap optionals
-            if isFaceUp && !isMatched && bonusPercentRemaining > 0, lastFaceUpDate == nil {
-                lastFaceUpDate = Date()
+            if isFaceUp && !isMatched && bonusPercentRemaining > 0, lastDateTurnedFaceUp == nil {
+                lastDateTurnedFaceUp = Date()
             }
         }
         
         // call this when the card goes back face down or gets matched
         private mutating func stopUsingBonusTime() {
             pastFaceUpTime = faceUpTime
-            lastFaceUpDate = nil
+            lastDateTurnedFaceUp = nil
         }
         
         // the bonus earned so far (one point for every second of the bonusTimeLimit that was not used)
@@ -117,13 +117,13 @@ struct MemorizeModel<CardContent> where CardContent: Equatable{
         }
         
         // how long this card has ever been face up and unmatched during its lifetime
-        // basically, pastFaceUpTime + time since lastFaceUpDate
+        // basically, pastFaceUpTime + time since lastDateTurnedFaceUp
         var faceUpTime: TimeInterval {
-            if let lastFaceUpDate {
-                //print("\(id) : lastFaceUpDate: \(lastFaceUpDate)")
-                return pastFaceUpTime + Date().timeIntervalSince(lastFaceUpDate)
+            if let lastDateTurnedFaceUp {
+                //print("\(id) : lastDateTurnedFaceUp: \(lastDateTurnedFaceUp)")
+                return pastFaceUpTime + Date().timeIntervalSince(lastDateTurnedFaceUp)
             } else {
-                //print("\(id) : lastFaceUpDate: nil")
+                //print("\(id) : lastDateTurnedFaceUp: nil")
                 return pastFaceUpTime
             }
         }
@@ -132,7 +132,7 @@ struct MemorizeModel<CardContent> where CardContent: Equatable{
         var bonusTimeLimit: TimeInterval = 6
         
         // the last time this card was turned face up
-        var lastFaceUpDate: Date?
+        var lastDateTurnedFaceUp: Date?
         
         // the accumulated time this card was face up in the past
         // (i.e. not including the current time it's been face up if it is currently so)
