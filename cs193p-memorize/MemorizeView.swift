@@ -39,13 +39,17 @@ struct MemorizeView: View {
                     .overlay(FlyingNumber(number: scoreChange(causedBy: card)))
                     .zIndex(scoreChange(causedBy: card)==0 ? 0 : 100)
                     .onTapGesture {
-                        withAnimation(.easeInOut(duration: Constants.duration)) {
-                            let scoreBeforeChoose = butler.score
-                            butler.choose(card)
-                            let scoreChange = butler.score - scoreBeforeChoose
-                            lastScoreChange = (scoreChange, card.id)
-                        }
+                        scoreOnChoice(card)
                     }
+        }
+    }
+    
+    private func scoreOnChoice(_ card: Card) {
+        withAnimation(.easeInOut(duration: Constants.duration)) {
+            let scoreBeforeChoose = butler.score
+            butler.choose(card)
+            let scoreChange = butler.score - scoreBeforeChoose
+            lastScoreChange = (scoreChange, card.id)
         }
     }
     
