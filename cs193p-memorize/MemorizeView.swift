@@ -20,6 +20,8 @@ struct MemorizeView: View {
                     .animation(nil)
                     .foregroundColor(Constants.scoreColor)
                 Spacer()
+                deck
+                Spacer()
                 Button("Shuffle"){
                     withAnimation{
                         butler.shuffle()
@@ -46,14 +48,6 @@ struct MemorizeView: View {
                     .transition(.push(from:.bottom))
             }
         }
-        .onAppear{
-            // deal the cards
-            withAnimation(.easeInOut(duration: 2)) {
-                for card in butler.cards {
-                    dealt.insert(card.id)
-                }
-            }
-        }
     }
     
     @State private var dealt = Set<Card.ID>()
@@ -65,6 +59,23 @@ struct MemorizeView: View {
     private var undealtCards:[Card] {
         butler.cards.filter{card in
             !isDealt(card)
+        }
+    }
+    
+    private var deck: some View{
+        ZStack {
+            ForEach(undealtCards) { card in
+                CardView(card)
+            }
+            .frame(width: Constants.deckWidth, height: Constants.deckWidth / Constants.cardAspRatio)
+        }
+        .onTapGesture {
+            // deal the cards
+            withAnimation(.easeInOut(duration: Constants.duration)) {
+                for card in butler.cards {
+                    dealt.insert(card.id)
+                }
+            }
         }
     }
     
@@ -90,6 +101,7 @@ struct MemorizeView: View {
         static let duration: CGFloat = 1
         static let shuffleColor = Color(red: 0.5, green: 0.73, blue: 0.5)
         static let scoreColor = Color(red: 0.627, green: 0.392, blue: 0.5)
+        static let deckWidth: CGFloat = 50
     }
 }
     
