@@ -33,14 +33,38 @@ struct MemorizeView: View {
     }
     
     private var cards: some View {
-        AspectVGrid(items: butler.cards, aspectRatio: Constants.cardAspRatio) {
-            card in CardView(card)
+        AspectVGrid(butler.cards, aspectRatio: Constants.cardAspRatio) {
+            card in
+            if isDealt(card){
+                CardView(card)
                     .padding(Constants.inset)
                     .overlay(FlyingNumber(number: scoreChange(causedBy: card)))
                     .zIndex(scoreChange(causedBy: card)==0 ? 0 : 100)
                     .onTapGesture {
                         scoreOnChoice(card)
                     }
+                    .transition(.push(from:.bottom))
+            }
+        }
+        .onAppear{
+            // deal the cards
+            withAnimation(.easeInOut(duration: 2)) {
+                for card in butler.cards {
+                    dealt.insert(card.id)
+                }
+            }
+        }
+    }
+    
+    @State private var dealt = Set<Card.ID>()
+    
+    private func isDealt(_ card: Card) -> Bool {
+        dealt.contains(card.id)
+    }
+    
+    private var undealtCards:[Card] {
+        butler.cards.filter{card in
+            !isDealt(card)
         }
     }
     
