@@ -47,6 +47,7 @@ struct MemorizeView: View {
                     }
                     //.transition(.slide)
                     .matchedGeometryEffect(id: card.id, in: dealingNamespace)
+                    .transition(.asymmetric(insertion: .identity, removal: .identity))
             }
         }
     }
@@ -70,16 +71,25 @@ struct MemorizeView: View {
             ForEach(undealtCards) { card in
                 CardView(card)
                     .matchedGeometryEffect(id: card.id, in: dealingNamespace)
+                    .transition(.asymmetric(insertion: .identity, removal: .identity))
             }
             .frame(width: Constants.deckWidth, height: Constants.deckWidth / Constants.cardAspRatio)
         }
         .onTapGesture {
-            // deal the cards
-            withAnimation(.easeInOut(duration: Constants.duration)) {
-                for card in butler.cards {
-                    dealt.insert(card.id)
-                }
+            deal()
+        }
+    }
+    
+    private func deal() {
+        // deal the cards
+        // delay the start of each subsequent card's animation
+        // default is to start animation together
+        var delay: TimeInterval = 0
+        for card in butler.cards {
+            withAnimation(.spring(duration: Constants.duration).delay(delay)) {
+                _ = dealt.insert(card.id)
             }
+            delay += Constants.duration / 10
         }
     }
     
