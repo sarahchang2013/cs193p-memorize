@@ -45,7 +45,8 @@ struct MemorizeView: View {
                     .onTapGesture {
                         scoreOnChoice(card)
                     }
-                    .transition(.push(from:.bottom))
+                    //.transition(.slide)
+                    .matchedGeometryEffect(id: card.id, in: dealingNamespace)
             }
         }
     }
@@ -62,10 +63,13 @@ struct MemorizeView: View {
         }
     }
     
+    @Namespace private var dealingNamespace
+    
     private var deck: some View{
         ZStack {
             ForEach(undealtCards) { card in
                 CardView(card)
+                    .matchedGeometryEffect(id: card.id, in: dealingNamespace)
             }
             .frame(width: Constants.deckWidth, height: Constants.deckWidth / Constants.cardAspRatio)
         }
